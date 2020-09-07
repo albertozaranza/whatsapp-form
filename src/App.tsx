@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useState } from 'react';
 import styled from 'styled-components';
 import { darken } from 'polished';
 
@@ -9,21 +9,20 @@ import TextInput from './components/TextInput';
 import icWhatsApp from './assets/icWhatsApp.svg';
 import backgroundImage from './assets/background-whatsapp.jpg';
 
-interface TextInputProps {
-  label: string;
-  id: string;
-}
-
-const form: Array<TextInputProps> = [
-  { label: 'Nome', id: 'name' },
-  { label: 'Bairro', id: 'neighborhood' },
-  { label: 'Rua', id: 'street' },
-  { label: 'Número', id: 'number' },
-];
+const NUMBER = 55889999999;
 
 const App: React.FC = () => {
+  const [name, setName] = useState('');
+  const [neighborhood, setNeighborhood] = useState('');
+  const [street, setStreet] = useState('');
+  const [number, setNumber] = useState('');
+
   const handleSubmit = (e: FormEvent): void => {
     e.preventDefault();
+
+    window.open(
+      `https://api.whatsapp.com/send?phone=${NUMBER}&text=Olá, meu nome é ${name}`,
+    );
   };
 
   return (
@@ -31,9 +30,25 @@ const App: React.FC = () => {
       <GlobalStyle />
       <h1>WhatsApp Form</h1>
       <form onSubmit={handleSubmit}>
-        {form.map(({ label, id }) => (
-          <TextInput label={label} id={id} />
-        ))}
+        <TextInput label="Nome" id="name" value={name} onChange={setName} />
+        <TextInput
+          label="Bairro"
+          id="neighborhood"
+          value={neighborhood}
+          onChange={setNeighborhood}
+        />
+        <TextInput
+          label="Rua"
+          id="street"
+          value={street}
+          onChange={setStreet}
+        />
+        <TextInput
+          label="Número"
+          id="number"
+          value={number}
+          onChange={setNumber}
+        />
         <button type="submit">
           <img src={icWhatsApp} alt="WhatsApp Icon" />
           Iniciar atendimento
